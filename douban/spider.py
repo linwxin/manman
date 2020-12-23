@@ -14,7 +14,22 @@ findInfo = re.compile(r'<p class="">(.*?)</p>', re.S)  # ? 是1次或0次
 
 
 
-
+# 获取页面内容
+def askURL(url):
+    head = {  # 模拟浏览器头部信息
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36"
+    }
+    req = urllib.request.Request(url, headers=head, method="GET")
+    html = ""
+    try:
+        res = urllib.request.urlopen(req)
+        html = res.read().decode("utf-8")
+    except urllib.error.URLError as e:
+        if hasattr(e, "code"):
+            print(e.code)
+        if hasattr(e, "reason"):
+            print(e.reason)
+    return html
 
 # 爬取网页
 def getData(baseUrl):
@@ -61,22 +76,7 @@ def getData(baseUrl):
 
     return datalist
 
-# 获取页面内容
-def askURL(url):
-    head = {  # 模拟浏览器头部信息
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36"
-    }
-    req = urllib.request.Request(url, headers=head, method="GET")
-    html = ""
-    try:
-        res = urllib.request.urlopen(req)
-        html = res.read().decode("utf-8")
-    except urllib.error.URLError as e:
-        if hasattr(e, "code"):
-            print(e.code)
-        if hasattr(e, "reason"):
-            print(e.reason)
-    return html
+
 
 # 3. 保存数据
 def saveData(path, datalist):
@@ -101,5 +101,4 @@ def main():
     saveData(save_path, datalist)
 
 if __name__ == "__main__":
-    baseUrl = "http://paper.jyb.cn/zgjyb/html/2020-11/01/node_4.htm"
-    print(askURL(baseUrl))
+    main()
