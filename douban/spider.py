@@ -63,14 +63,10 @@ def askURL(url):
     """
     req = urllib.request.Request(url, headers=head, method="GET")  # 构造请求器, 请求方法为GET, 请求头参数为 head字典 定义的参数
     html = ""
-    try:
-        res = urllib.request.urlopen(req)  # 发送请求, 获取页面
-        html = res.read().decode("utf-8")  # 获取页面结果并进行转码
-    except urllib.error.URLError as e:  # 请求失败, 进行异常处理
-        if hasattr(e, "code"):  # 如果有错误码
-            print(e.code)  # 打印错误码, 错误码诸如 404(找不到页面) 500(服务器错误)
-        if hasattr(e, "reason"):  # 如果有错误原因
-            print(e.reason)  # 打印发生错误的原因
+
+    res = urllib.request.urlopen(req)  # 发送请求, 获取页面
+    html = res.read().decode("utf-8")  # 获取页面结果并进行转码
+
     return html
 
 """
